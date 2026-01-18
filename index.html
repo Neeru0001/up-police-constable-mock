@@ -1,0 +1,126 @@
+<!DOCTYPE html>
+<html lang="en">
+<head>
+<meta charset="UTF-8">
+<title>UP Police Constable Mock Test</title>
+<meta name="viewport" content="width=device-width, initial-scale=1.0">
+<style>
+body { font-family: Arial, sans-serif; background:#f2f2f2; margin:0; padding:10px; }
+h2 { text-align:center; }
+#timer { text-align:center; font-size:18px; color:red; margin-bottom:10px; }
+.section { display:none; background:#fff; padding:15px; border-radius:5px; }
+.question { margin-bottom:15px; }
+.options label { display:block; margin:6px 0; }
+button { padding:10px 15px; margin:5px; font-size:16px; }
+#menu { text-align:center; }
+#result { display:none; background:#fff; padding:15px; border-radius:5px; }
+.correct { color:green; }
+.wrong { color:red; }
+</style>
+</head>
+
+<body>
+
+<h2>UP Police Constable Mock Test</h2>
+<div id="timer">Time Left: 120:00</div>
+
+<div id="menu">
+<button onclick="showSection('gk')">General Knowledge</button>
+<button onclick="showSection('reason')">Reasoning</button>
+<button onclick="showSection('math')">Maths</button>
+<button onclick="showSection('hindi')">Hindi</button>
+<button onclick="submitTest()">Submit Test</button>
+</div>
+
+<form id="exam">
+
+<div id="gk" class="section">
+<h3>General Knowledge</h3>
+<p class="question">1. United Provinces was renamed Uttar Pradesh in which year?</p>
+<div class="options">
+<label><input type="radio" name="q1" value="0"> 1947</label>
+<label><input type="radio" name="q1" value="1"> 1950</label>
+<label><input type="radio" name="q1" value="2"> 1956</label>
+<label><input type="radio" name="q1" value="3"> 1960</label>
+</div>
+</div>
+
+<div id="reason" class="section">
+<h3>Reasoning</h3>
+<p class="question">2. Cat : Meow :: Dog : ?</p>
+<div class="options">
+<label><input type="radio" name="q2" value="0"> Bark</label>
+<label><input type="radio" name="q2" value="1"> Bleat</label>
+<label><input type="radio" name="q2" value="2"> Roar</label>
+<label><input type="radio" name="q2" value="3"> Neigh</label>
+</div>
+</div>
+
+<div id="math" class="section">
+<h3>Mathematics</h3>
+<p class="question">3. What is 25% of 200?</p>
+<div class="options">
+<label><input type="radio" name="q3" value="0"> 25</label>
+<label><input type="radio" name="q3" value="1"> 40</label>
+<label><input type="radio" name="q3" value="2"> 50</label>
+<label><input type="radio" name="q3" value="3"> 75</label>
+</div>
+</div>
+
+<div id="hindi" class="section">
+<h3>Hindi</h3>
+<p class="question">4. ‘सुंदर’ शब्द कौन-सा विशेषण है?</p>
+<div class="options">
+<label><input type="radio" name="q4" value="0"> संख्यावाचक</label>
+<label><input type="radio" name="q4" value="1"> गुणवाचक</label>
+<label><input type="radio" name="q4" value="2"> परिमाणवाचक</label>
+<label><input type="radio" name="q4" value="3"> सार्वनामिक</label>
+</div>
+</div>
+
+</form>
+
+<div id="result"></div>
+
+<script>
+const answers = { q1:1, q2:0, q3:2, q4:1 };
+
+function showSection(id){
+document.querySelectorAll('.section').forEach(s=>s.style.display='none');
+document.getElementById(id).style.display='block';
+}
+
+let time = 120*60;
+setInterval(()=>{
+let m = Math.floor(time/60);
+let s = time%60;
+document.getElementById("timer").innerText =
+"Time Left: "+m+":"+(s<10?"0"+s:s);
+if(time<=0) submitTest();
+time--;
+},1000);
+
+function submitTest(){
+let score=0, report="";
+for(let q in answers){
+let sel=document.querySelector(`input[name="${q}"]:checked`);
+if(sel){
+if(parseInt(sel.value)===answers[q]) score+=2;
+else{
+score-=0.5;
+report+=`<p class="wrong">${q} wrong</p>`;
+}
+}
+}
+document.getElementById("exam").style.display="none";
+document.getElementById("menu").style.display="none";
+document.getElementById("result").style.display="block";
+document.getElementById("result").innerHTML=
+`<h3>Result</h3>
+<p><b>Score:</b> ${score}</p>
+${report || "<p class='correct'>No wrong answers</p>"}`;
+}
+</script>
+
+</body>
+</html>
